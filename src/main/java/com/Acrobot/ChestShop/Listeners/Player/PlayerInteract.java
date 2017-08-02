@@ -112,19 +112,24 @@ public class PlayerInteract implements Listener {
         String quantity = sign.getLine(QUANTITY_LINE);
         String prices = sign.getLine(PRICE_LINE);
         String material = sign.getLine(ITEM_LINE);
-
+        
         Account account = NameManager.getAccountFromShortName(name);
-        if (account == null)
+        OfflinePlayer owner =  null;
+        //LegendsMC Check if the owner is a player or not
+        if (account != null) {
+        	owner = account.getUuid().version() != 4 // it seems to forget the username when getting by the offline UUID
+	                ? Bukkit.getOfflinePlayer(account.getName())   // so we get the OfflinePlayer directly by the name in this case
+	                : Bukkit.getOfflinePlayer(account.getUuid());
+        }
+        else
+        	owner = Bukkit.getOfflinePlayer(name); //LegendsMC Set the owner to a fake player
+
+	    // check if player exists in economy
+	    if(!ChestShopSign.isAdminShop(sign) && !VaultListener.getProvider().hasAccount(owner)) {
+	    	player.sendMessage(Messages.prefix("The owner does not have an economy account."));
             return null;
-
-        OfflinePlayer owner = account.getUuid().version() != 4 // it seems to forget the username when getting by the offline UUID
-                ? Bukkit.getOfflinePlayer(account.getName())   // so we get the OfflinePlayer directly by the name in this case
-                : Bukkit.getOfflinePlayer(account.getUuid());
-
-        // check if player exists in economy
-        if(!ChestShopSign.isAdminShop(sign) && (owner == null || owner.getName() == null || !VaultListener.getProvider().hasAccount(owner)))
-            return null;
-
+        }
+        
         Action buy = Properties.REVERSE_BUTTONS ? LEFT_CLICK_BLOCK : RIGHT_CLICK_BLOCK;
         double price = (action == buy ? PriceUtil.getBuyPrice(prices) : PriceUtil.getSellPrice(prices));
 
