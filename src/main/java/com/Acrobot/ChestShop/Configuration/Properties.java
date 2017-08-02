@@ -149,4 +149,12 @@ public class Properties {
     @PrecededBySpace
     @ConfigurationComment("How much Heroes exp should people get for creating a ChestShop?")
     public static double HEROES_EXP = 100;
+    
+    //LegendsMC
+    @PrecededBySpace
+    @ConfigurationComment("Should people only be able to build shops inside commercial plots?")
+    public static boolean BUILDING_INSIDE_SHOP_PLOTS = true;
+
+    @ConfigurationComment("If true, only plot owners are able to build inside a shop plot. If false, every town's resident is able to build there.")
+    public static boolean SHOPS_FOR_OWNERS_ONLY = true;
 }

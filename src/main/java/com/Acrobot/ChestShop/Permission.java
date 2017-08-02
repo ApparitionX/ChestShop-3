@@ -26,8 +26,11 @@ public enum Permission {
     NOFEE("ChestShop.nofee"),
     DISCOUNT("ChestShop.discount."),
 
-    NOTIFY_TOGGLE("ChestShop.toggle");
+    NOTIFY_TOGGLE("ChestShop.toggle"),
 
+	//LegendsMC
+    PROTECTION_BYPASS("ChestShop.towny.bypass");
+    
     private final String permission;
 
     Permission(String permission) {
